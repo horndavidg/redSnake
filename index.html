@@ -37,19 +37,18 @@ for (var i = 0; i < points; i++)
 // into account the length between points (set by the length var) and creates
 // path along the X axis.
 
-
 function onMouseMove(event) {
 	path.firstSegment.point = event.point;
 	// makes the point of the mouse movement the first point in the path
 	for (var i = 0; i < points - 1; i++) {
 		// creates the path around the first segment (hence points -1)
-		var segment1 = path.segments[i];
+		var segment = path.segments[i];
 		// selects the first segment in the path created above
-		var segment2 = segment.next;
+		var nextSegment = segment.next;
 		// selects the segment next to the one selected above
-		var vector = segment1.point - Segment2.point;
+		var vector = segment.point - nextSegment.point;
 		vector.length = length;
-		Segment2.point = segment1.point - vector;
+		nextSegment.point = segment.point - vector;
 		// because the length is consistent (set to variable length)
 		// the only thing that changes is the direction of the path
 		// in relation to the mouse point and the vectors of each point
