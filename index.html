@@ -14,36 +14,53 @@ var textItem = new PointText({
 });
 // add text to the canvas.....
 
-// The amount of points in the path:
-var points = 25;
 
-// The distance between the points:
+var points = 25;
+// The amount of points in the path:
+
 var length = 20;
+// The distance between the points:
 
 var path = new Path({
 	strokeColor: '#FF3939',
 	strokeWidth: 10,
 	strokeCap: 'round'
 });
+// describes what the path is going to look like (its attributes)
 
 
 var start = view.center // [10, 1];
 for (var i = 0; i < points; i++)
 	path.add(start + new Point(i * length, 0));
 // populates the path segments based on a starting point in the middle of the 
-// page and adds segments on to fill the # of points listed above
+// page and adds segments on to fill the # of points listed above. Also takes
+// into account the length between points (set by the length var) and creates
+// path along the X axis.
 
 
 function onMouseMove(event) {
 	path.firstSegment.point = event.point;
+	// makes the point of the mouse movement the first point in the path
 	for (var i = 0; i < points - 1; i++) {
-		var segment = path.segments[i];
-		var nextSegment = segment.next;
-		var vector = segment.point - nextSegment.point;
+		// creates the path around the first segment (hence points -1)
+		var segment1 = path.segments[i];
+		// selects the first segment in the path created above
+		var segment2 = segment.next;
+		// selects the segment next to the one selected above
+		var vector = segment1.point - Segment2.point;
 		vector.length = length;
-		nextSegment.point = segment.point - vector;
-	}
+		Segment2.point = segment1.point - vector;
+		// because the length is consistent (set to variable length)
+		// the only thing that changes is the direction of the path
+		// in relation to the mouse point and the vectors of each point
+		// in the path are changed accordingly as the mouse moves. 
+
+		// use of the for loop and the segment.next method make this possible.
+
+			}
+
 	path.smooth();
+	// smooths/optimizes out the path segments
 }
 
 function onMouseDown(event) {
@@ -55,7 +72,6 @@ function onMouseUp(event) {
 	path.fullySelected = false;
 	path.strokeColor = '#'+Math.floor(Math.random()*16777215).toString(16);
 	
-	//path.dashArray = [10, 12]
 	// changes the solid stroke to a dashed stroke (dash length, space length)
 		
 		if (path.dashArray == null) {
@@ -67,7 +83,6 @@ function onMouseUp(event) {
 	length += 2;
 	// increases the stroke length by 2 everytime it's clicked
 
-	// console.log(length);
 }
 
 function onResize(event) {
@@ -75,29 +90,6 @@ function onResize(event) {
 	path.position = view.center;
 }
 	
-// Create a circle shaped path with its center at the center
-// of the view and a radius of 30:
-// var path = new Path.Circle({
-// 	center: view.center,
-// 	radius: 40,
-// 	strokeColor: 'black'
-// });
-
-// function onResize(event) {
-// 	// Whenever the window is resized, recenter the path:
-// 	path.position = view.center;
-// }
-
-	// // Create a Paper.js Path to draw a line into it:
-	// var path = new Path();
-	// // Give the stroke a color
-	// path.strokeColor = 'black';
-	// var start = new Point(10, 100);
-	// // Move to start and draw a line from there
-	// path.moveTo(start);
-	// // Note the plus operator on Point objects.
-	// // PaperScript does that for us, and much more!
-	// path.lineTo(start + [ 100, -50 ]);
 </script>
 </head>
 <body>
